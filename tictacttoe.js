@@ -24,7 +24,14 @@ const gameBoard = (function () {
             console.log("Space already taken try again...")
         } else {
             updateGameBoard(xPosition, yPosition, noughtOrCross);
+            checkWinCondition();
         }
+    }
+
+    const checkWinCondition = () => {
+
+
+        console.log('YOU WIN!!')
     }
     return { gameTurn };
 })();
