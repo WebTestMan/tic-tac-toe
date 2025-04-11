@@ -6,6 +6,8 @@
 // 1 | 2 | 3
 // 4 | 5 | 6
 // 7 | 8 | 9
+const nought = 'O'
+const cross = 'X'
 
 const winningConditions = [
     [1, 2, 3],
@@ -18,72 +20,99 @@ const winningConditions = [
     [3, 5, 7]
 ]
 
-const gameBoard = (function () {
-    const nought = 'O'
-    const cross = 'X'
 
+const gameBoard = (function () {
     const gameBoardArray = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
-    const renderGame = () => {
+    renderGame = () => {
         for (let i = 0; i < gameBoardArray.length; i++) {
             console.log(`${gameBoardArray[i][0]} | ${gameBoardArray[i][1]} | ${gameBoardArray[i][2]}`);
         }
         console.log('');
     }
-    const updateGameBoard = (position, noughtOrCross) => {
+    updateGameBoard = (position, noughtOrCross) => {
         gameBoardArray[position[0]][position[1]] = noughtOrCross;
         renderGame();
     }
 
-    const gameTurn = (position, noughtOrCross) => {
-        if (gameBoardArray[position[0]][position[1]] === nought || gameBoardArray[position[0]][position[1]] === cross) {
-            console.log("Space already taken try again...")
-        } else {
-            updateGameBoard(position, noughtOrCross);
-            checkWinCondition();
+    resetGameBoard = () => {
+        for (let i = 0; i < gameBoardArray.length; i++) {
+            for (let j = 0; j < gameBoardArray.length; j++) {
+                gameBoardArray[i][j] = ' ';
+            }
+            // gameBoardArray[i][0] = ' ';
+            // gameBoardArray[i][1] = ' ';
+            // gameBoardArray[i][2] = ' ';
         }
+        renderGame();
+    }
+    getGameBoard = () => {
+        return gameBoardArray;
     }
 
-    const checkWinCondition = () => {
-        const xPosition = gameBoardArray.filter((position) => {
-            return position === 'X'
-        })
-        const oPosition = gameBoardArray.filter((position) => {
-            return position === 'O'
-        })
-        xPosition.filter((result) => {
-            return winningConditions
-        })
-
-        oPosition.filter((result) => {
-            return winningConditions
-        })
-
-        /* 
-        check if the gameboard matches any of the results array
-        if gameboardarray 
-        */
-
-        console.log('YOU WIN!!')
-    }
-    return { gameTurn };
+    return { updateGameBoard, getGameBoard, resetGameBoard }
 })();
 
 function player() {
+    setUpPlayer = (playerName, playerPiece) => {
+        setPlayerName(playerName);
+        setPlayerPiece(playerPiece);
+    }
     getPlayerName = () => { return playerName };
     setPlayerName = (playerName) => { this.playerName = playerName };
     getPlayerPiece = () => { return playerPiece };
     setPlayerPiece = (playerPiece) => { this.playerPiece = playerPiece };
 
-    return { getPlayerName, setPlayerName, getPlayerPiece, setPlayerPiece };
+    displayPlayerDetails = () => {
+        return `Player Name: ${getPlayerName()}
+Player Piece: ${getPlayerPiece()}`
+    }
+
+    return { getPlayerName, getPlayerPiece, displayPlayerDetails, setUpPlayer };
 }
 
-gameBoard.gameTurn([0, 1], 'X');
+const gameController = (function () {
+
+    //newGameBoard = gameBoard();
+    //newGameBoard.renderGame();
+    gameBoardArray = getGameBoard();
+
+    const gameTurn = (position, noughtOrCross) => {
+        if (gameBoardArray[position[0]][position[1]] === nought || gameBoardArray[position[0]][position[1]] === cross) {
+            console.log("Space already taken try again...")
+        } else {
+            gameBoard.updateGameBoard(position, noughtOrCross)
+        }
+    }
+
+    // const checkWinCondition = () => {
+    //     const xPosition = gameBoardArray.filter((position) => {
+    //         return position === 'X'
+    //     })
+    //     const oPosition = gameBoardArray.filter((position) => {
+    //         return position === 'O'
+    //     })
+    //     xPosition.filter((result) => {
+    //         return winningConditions
+    //     })
+    //     oPosition.filter((result) => {
+    //         return winningConditions
+    //     })
+    //     /* 
+    //     check if the gameboard matches any of the results array
+    //     if gameboardarray 
+    //     */
+    //     console.log('YOU WIN!!')
+    // }
+
+    return { gameTurn };
+})();
 
 player1 = player();
-player1.setPlayerName('Steve');
-player1.setPlayerPiece('X');
-console.log(player1.getPlayerName());
-console.log(player1.getPlayerPiece());
+player1.setUpPlayer('Steve', 'X');
+console.log(player1.displayPlayerDetails());
+gameController.gameTurn([0, 1], player1.getPlayerPiece());
+gameController.gameTurn([1, 1], 'O');
+gameBoard.resetGameBoard();
 
 
 
