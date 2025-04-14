@@ -15,17 +15,22 @@ const gameBoard = (function () {
 
         const gameDiv = document.querySelector('.game-display');
 
-        for (i = 0; i < 9; i++) {
-            const gameSquare = document.createElement('div');
-            gameSquare.setAttribute('class', 'game-square');
-            gameSquare.setAttribute('id', 'id-' + i);
-            gameDiv.appendChild(gameSquare);
+        for (let i = 0; i < gameBoardArray.length; i++) {
+            for (let j = 0; j < gameBoardArray.length; j++) {
+                const gameSquare = document.createElement('div');
+                gameSquare.setAttribute('class', 'game-square');
+                gameSquare.setAttribute('id', `id-${i}-${j}`);
+                gameDiv.appendChild(gameSquare);
+            }
         }
     }
+
     updateGameBoard = (position, noughtOrCross) => {
         gameBoardArray[position[0]][position[1]] = noughtOrCross;
-        renderGame();
+        const gameSquare = document.querySelector(`#id-${position[0]}-${position[0]}`,)
+        gameSquare.innerHTML = noughtOrCross;
     }
+
 
     resetGameBoard = () => {
         for (let i = 0; i < gameBoardArray.length; i++) {
@@ -92,17 +97,19 @@ Player Score: ${playerScore}`
 }
 
 const gameController = (function () {
-    // const winningConditions = [
-    //     [1, 2, 3],
-    //     [4, 5, 6],
-    //     [7, 8, 9],
-    //     [1, 4, 7],
-    //     [2, 5, 8],
-    //     [3, 6, 9],
-    //     [1, 5, 9],
-    //     [3, 5, 7]
-    // ]
+
     gameBoardArray = gameBoard.getGameBoard();
+
+    const startGame = () => {
+        player1 = player();
+        player1.setUpPlayer('Steve', cross);
+        console.log(player1.displayPlayerDetails());
+
+        player2 = player();
+        player2.setUpOpponent(player1);
+
+        gameBoard.renderGame();
+    }
 
     const gameTurn = (position, currentPlayer) => {
         const noughtOrCross = currentPlayer.getPlayerPiece();
@@ -152,9 +159,14 @@ const gameController = (function () {
 
     }
 
-    return { gameTurn, checkWinCondition };
+    return { startGame, gameTurn, checkWinCondition };
 })();
 
-gameBoard.renderGame();
+
+gameController.startGame();
+gameController.gameTurn([0, 1], player1);
+gameController.gameTurn([1, 1], player2);
+gameController.gameTurn([2, 1], player1);
+gameController.gameTurn([1, 2], player2);
 
 // checks for win scenario
