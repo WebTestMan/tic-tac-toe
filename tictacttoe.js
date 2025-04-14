@@ -59,8 +59,14 @@ Player Piece: ${playerPiece}
 Player Score: ${playerScore}`
     }
 
-    setUpOpponent = () => {
-        return setUpPlayer(randomOpponentName(), 'X');
+    setUpOpponent = (player) => {
+        let AIPiece;
+        if (player.getPlayerPiece() === 'X') {
+            AIPiece = 'O'
+        } else {
+            AIPiece = 'X'
+        }
+        return setUpPlayer(randomOpponentName(), AIPiece);
     }
 
     randomOpponentName = () => {
@@ -90,55 +96,51 @@ const gameController = (function () {
     ]
     gameBoardArray = gameBoard.getGameBoard();
 
-    const gameTurn = (position, noughtOrCross) => {
+    const gameTurn = (position, currentPlayer) => {
+        const noughtOrCross = currentPlayer.getPlayerPiece();
         if (gameBoardArray[position[0]][position[1]] === nought || gameBoardArray[position[0]][position[1]] === cross) {
             console.log("Space already taken try again...")
         } else {
             gameBoard.updateGameBoard(position, noughtOrCross)
-            checkWinCondition('X');
+            checkWinCondition(currentPlayer);
         }
     }
 
-    const checkWinCondition = (noughtOrCross) => {
+    const checkWinCondition = (currentPlayer) => {
         let oPosition = [];
         let xPosition = [];
 
         const row = 3;
         const col = 3;
+        const currentPiece = currentPlayer.getPlayerPiece();
+        const currentPlayerName = currentPlayer.getPlayerName()
 
-        // checkWinner = (noughtOrCross) => {
         for (let i = 0; i < col; i++) {
-            if (gameBoardArray[i][0] !== noughtOrCross) {
+            if (gameBoardArray[i][0] !== currentPiece) {
                 break;
             }
             if (i === col - 1) {
-                console.log(`${noughtOrCross} is the winner!`);
-                return noughtOrCross;
+                console.log(`${currentPlayerName} is the winner!`);
+                return currentPiece;
             }
         }
 
         for (let i = 0; i < row; i++) {
-            if (gameBoardArray[0][i] !== noughtOrCross) {
+            if (gameBoardArray[0][i] !== currentPiece) {
                 break;
             }
             if (i === row - 1) {
-                console.log(`${noughtOrCross} is the winner!`);
-                return noughtOrCross;
+                console.log(`${currentPlayerName} is the winner!`);
+                return currentPiece;
             }
         }
 
-        if ((gameBoardArray[0][0] === noughtOrCross && gameBoardArray[1][1] === noughtOrCross && gameBoardArray[2][2] === noughtOrCross)
-            || (gameBoardArray[0][2] === noughtOrCross && gameBoardArray[1][1] === noughtOrCross && gameBoardArray[2][0] === noughtOrCross)) {
-            console.log(`${noughtOrCross} is the winner!`);
-            return noughtOrCross;
+        if ((gameBoardArray[0][0] === currentPiece && gameBoardArray[1][1] === currentPiece && gameBoardArray[2][2] === currentPiece)
+            || (gameBoardArray[0][2] === currentPiece && gameBoardArray[1][1] === currentPiece && gameBoardArray[2][0] === currentPiece)) {
+            console.log(`${currentPlayerName} is the winner!`);
+            return currentPiece;
         }
-        // }
 
-
-        /* 
-        check if the gameboard matches any of the results array
-        if gameboardarray 
-        */
     }
 
     return { gameTurn, checkWinCondition };
@@ -149,19 +151,16 @@ player1.setUpPlayer('Steve', 'X');
 console.log('Player 1 ' + player1.displayPlayerDetails());
 
 aiPlayer = player();
-aiPlayer.setUpPlayer(randomOpponentName(), 'X');
+aiPlayer.setUpOpponent(player1);
 console.log('AI ' + aiPlayer.displayPlayerDetails());
 
 const aiPlayerName = aiPlayer.getPlayerName();
 const player1Name = player1.getPlayerName();
 console.log(`The players are Human: ${player1Name} & AI: ${aiPlayerName}`);
 
-gameController.gameTurn([0, 2], player1.getPlayerPiece());
-gameController.gameTurn([1, 1], player1.getPlayerPiece());
-gameController.gameTurn([2, 0], player1.getPlayerPiece());
-
-
-// gameController.checkWinCondition();
-
+gameController.gameTurn([0, 2], player1);
+gameController.gameTurn([1, 0], aiPlayer);
+gameController.gameTurn([1, 1], aiPlayer);
+gameController.gameTurn([1, 2], aiPlayer);
 
 // checks for win scenario
