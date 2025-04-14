@@ -6,8 +6,6 @@ const nought = 'O'
 const cross = 'X'
 
 
-
-
 const gameBoard = (function () {
     const gameBoardArray = [[' ', ' ', ' '], [' ', ' ', ' '], [' ', ' ', ' ']];
     renderGame = () => {
@@ -97,50 +95,45 @@ const gameController = (function () {
             console.log("Space already taken try again...")
         } else {
             gameBoard.updateGameBoard(position, noughtOrCross)
-            checkWinCondition();
+            checkWinCondition('X');
         }
     }
 
-    const checkWinCondition = () => {
+    const checkWinCondition = (noughtOrCross) => {
         let oPosition = [];
         let xPosition = [];
 
+        const row = 3;
+        const col = 3;
 
-        for (let i = 0; i < gameBoardArray.length; i++) {
-            oPosition.push(gameBoardArray[i].filter((position) => {
-                return position === nought
-            }))
-        }
-        let oWinner = false;
-        for (let i = 0; i < oPosition.length; i++) {
-            if (oPosition[i].length === 3) {
-                oWinner = true;
+        // checkWinner = (noughtOrCross) => {
+        for (let i = 0; i < col; i++) {
+            if (gameBoardArray[i][0] !== noughtOrCross) {
+                break;
+            }
+            if (i === col - 1) {
+                console.log(`${noughtOrCross} is the winner!`);
+                return noughtOrCross;
             }
         }
 
-        for (let i = 0; i < gameBoardArray.length; i++) {
-            xPosition.push(gameBoardArray[i].filter((position) => {
-                return position === cross
-            }))
-        }
-
-        let xWinner = false;
-        for (let i = 0; i < xPosition.length; i++) {
-            if (xPosition[i].length === 3) {
-                xWinner = true;
+        for (let i = 0; i < row; i++) {
+            if (gameBoardArray[0][i] !== noughtOrCross) {
+                break;
+            }
+            if (i === row - 1) {
+                console.log(`${noughtOrCross} is the winner!`);
+                return noughtOrCross;
             }
         }
 
-        if (xWinner === true || oWinner === true) {
-            let winner;
-            if (xWinner === true) {
-                winner = 'X'
-            } else if (oWinner === true) {
-                winner = 'O'
-            }
-            console.log(winner + ' wins!!!');
-            console.log('');
+        if ((gameBoardArray[0][0] === noughtOrCross && gameBoardArray[1][1] === noughtOrCross && gameBoardArray[2][2] === noughtOrCross)
+            || (gameBoardArray[0][2] === noughtOrCross && gameBoardArray[1][1] === noughtOrCross && gameBoardArray[2][0] === noughtOrCross)) {
+            console.log(`${noughtOrCross} is the winner!`);
+            return noughtOrCross;
         }
+        // }
+
 
         /* 
         check if the gameboard matches any of the results array
@@ -152,7 +145,7 @@ const gameController = (function () {
 })();
 
 player1 = player();
-player1.setUpPlayer('Steve', 'O');
+player1.setUpPlayer('Steve', 'X');
 console.log('Player 1 ' + player1.displayPlayerDetails());
 
 aiPlayer = player();
@@ -163,15 +156,10 @@ const aiPlayerName = aiPlayer.getPlayerName();
 const player1Name = player1.getPlayerName();
 console.log(`The players are Human: ${player1Name} & AI: ${aiPlayerName}`);
 
-gameController.gameTurn([0, 0], player1.getPlayerPiece());
-gameController.gameTurn([1, 0], aiPlayer.getPlayerPiece());
-gameController.gameTurn([0, 1], player1.getPlayerPiece());
-gameController.gameTurn([1, 1], aiPlayer.getPlayerPiece());
 gameController.gameTurn([0, 2], player1.getPlayerPiece());
-gameController.gameTurn([1, 2], aiPlayer.getPlayerPiece());
+gameController.gameTurn([1, 1], player1.getPlayerPiece());
 gameController.gameTurn([2, 0], player1.getPlayerPiece());
-gameController.gameTurn([2, 1], aiPlayer.getPlayerPiece());
-gameController.gameTurn([2, 2], player1.getPlayerPiece());
+
 
 // gameController.checkWinCondition();
 
