@@ -116,25 +116,26 @@ const gameController = (function () {
         const currentPlayerName = currentPlayer.getPlayerName()
 
         for (let i = 0; i < col; i++) {
-            if (gameBoardArray[i][0] !== currentPiece) {
-                break;
+            for (let j = 0; j < col; j++) {
+                if (gameBoardArray[i][j] !== currentPiece) {
+                    break;
+                }
+                if (j === col - 1) {
+                    console.log(`${currentPlayerName} is the winner!`);
+                    return currentPiece; s
+                }
             }
-            if (i === col - 1) {
-                console.log(`${currentPlayerName} is the winner!`);
-                return currentPiece;
+
+            for (let j = 0; j < row; j++) {
+                if (gameBoardArray[j][i] !== currentPiece) {
+                    break;
+                }
+                if (j === row - 1) {
+                    console.log(`${currentPlayerName} is the winner!`);
+                    return currentPiece;
+                }
             }
         }
-
-        for (let i = 0; i < row; i++) {
-            if (gameBoardArray[0][i] !== currentPiece) {
-                break;
-            }
-            if (i === row - 1) {
-                console.log(`${currentPlayerName} is the winner!`);
-                return currentPiece;
-            }
-        }
-
         if ((gameBoardArray[0][0] === currentPiece && gameBoardArray[1][1] === currentPiece && gameBoardArray[2][2] === currentPiece)
             || (gameBoardArray[0][2] === currentPiece && gameBoardArray[1][1] === currentPiece && gameBoardArray[2][0] === currentPiece)) {
             console.log(`${currentPlayerName} is the winner!`);
@@ -158,9 +159,14 @@ const aiPlayerName = aiPlayer.getPlayerName();
 const player1Name = player1.getPlayerName();
 console.log(`The players are Human: ${player1Name} & AI: ${aiPlayerName}`);
 
-gameController.gameTurn([0, 2], player1);
+
+// gameController.gameTurn([1, 1], aiPlayer);
 gameController.gameTurn([1, 0], aiPlayer);
-gameController.gameTurn([1, 1], aiPlayer);
+
+gameController.gameTurn([0, 0], player1);
+gameController.gameTurn([1, 1], player1);
+gameController.gameTurn([2, 2], player1);
+
 gameController.gameTurn([1, 2], aiPlayer);
 
 // checks for win scenario
