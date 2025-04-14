@@ -1,0 +1,63 @@
+:root {
+    --background-colour: #ededfb;
+    --text-colour: #030d01;
+    --button-colour: #c0f3ca;
+    --alt-background-colour: #2684398b;
+    --alt-text-colour: #04a0c7;
+}
+
+* {
+    background-color: var(--background-colour);
+    font-family: 'IndieFlowerRegular', 'JelleeBold', Tahoma, 'GlacialIndifferenceRegular', Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color: var(--text-colour);
+    padding: 4px;
+
+}
+
+button {
+    border-radius: 10px;
+    background-color: var(--button-colour);
+    color: var(--alt-text-colour);
+    padding: 4px 20px;
+}
+
+.container {
+    background-color: var(--background-colour);
+    color: var(--text-colour);
+    display: flex;
+    flex-direction: column;
+    padding: 10px 6px;
+}
+
+.header div {
+    text-align: center;
+    align-content: center;
+}
+
+
+.player {
+    border: #157c83 solid;
+    text-align: center;
+}
+
+.game-square {
+    background-color: white;
+    min-width: 100px;
+    max-width: 250px;
+    aspect-ratio: 1;
+    justify-self: center;
+}
+
+.game-display {
+    align-self: center;
+    background-color: var(--alt-background-colour);
+    padding: 6px;
+    gap: 4px;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: repeat(3, auto);
+    aspect-ratio: 1;
+    justify-content: center;
+    align-content: center;
+    margin-top: 40px;
+}
