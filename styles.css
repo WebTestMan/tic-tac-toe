@@ -27,17 +27,37 @@ button {
     display: flex;
     flex-direction: column;
     padding: 10px 6px;
+    justify-content: center;
+    align-items: center;
 }
 
-.header div {
+.header div,
+#game-status {
     text-align: center;
     align-content: center;
 }
 
-
 .player {
     border: #157c83 solid;
     text-align: center;
+    max-width: 800px;
+    justify-content: center;
+}
+
+#start-button {
+    font-size: 2em;
+    padding: 10px 20px;
+}
+
+#nought-or-cross {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.button-clicked {
+    background-color: var(--alt-text-colour);
+    color: var(--button-colour);
 }
 
 .game-square {
