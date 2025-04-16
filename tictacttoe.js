@@ -1,7 +1,3 @@
-
-// 1 | 2 | 3
-// 4 | 5 | 6
-// 7 | 8 | 9
 const nought = 'O'
 const cross = 'X'
 let currentPlayer = nought;
@@ -15,8 +11,6 @@ buttons.forEach((button) => {
         button.classList.add('class', 'button-clicked');
     });
 });
-
-
 
 
 // Game Board Module
@@ -64,8 +58,6 @@ const gameBoard = (function () {
 
     return { updateGameBoard, getGameBoard, resetGameBoard, renderGame }
 })();
-
-
 
 
 /// Player Factory Function
